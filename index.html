@@ -13,27 +13,41 @@
             <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-technology-network-connections-loop-animation-8902-large.mp4" type="video/mp4">
         </video>
 
+        <!-- Fallback Background -->
+        <div class="fallback-bg"></div>
+
+        <!-- Animated Background Particles -->
+        <div class="particles-container"></div>
+        
+        <div class="overlay"></div>
+        
         <div class="content">
-            <h1>Math Adventure</h1>
+            <h1 class="title">Math Adventure</h1>
             
-            <div class="game-cards">
+            <div class="cards-container">
                 <!-- Math Challenge Card -->
                 <div class="game-card" onclick="window.location.href='pages/math-challenge.html'">
+                    <div class="card-glow"></div>
                     <h2>Math Challenge</h2>
-                    <p>Test your mathematical skills with increasingly difficult challenges!</p>
-                    <div class="card-icons">🧮 📊 ⏱️</div>
+                    <p>Test your mathematical skills with increasingly difficult challenges. Race against time and compete for high scores!</p>
+                    <div class="card-icons">
+                        🧮 📊 ⏱️
+                    </div>
                 </div>
 
                 <!-- Adventure Mode Card -->
                 <div class="game-card" onclick="window.location.href='pages/adventure.html'">
+                    <div class="card-glow"></div>
+                    <div class="magical-sparkles"></div>
                     <h2>Adventure Mode</h2>
-                    <p>Embark on an epic journey through the mystical Kingdom of Numerica!</p>
-                    <div class="card-icons">⚔️ 🏰 ✨</div>
+                    <p>Embark on an epic journey through the mystical Kingdom of Numerica. Unlock realms, gain power, and restore balance to the mathematical universe!</p>
+                    <div class="card-icons">
+                        ⚔️ 🏰 ✨
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
     <script src="scripts/main.js"></script>
 </body>
 </html> 

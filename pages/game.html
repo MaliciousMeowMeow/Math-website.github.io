@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game - Math Adventure</title>
+    <title>Math Challenge - Math Adventure</title>
     <link rel="stylesheet" href="../styles/main.css">
     <style>
         .game-ui {
@@ -90,25 +90,35 @@
 </head>
 <body>
     <div class="game-container">
-        <a href="./math-challenge.html" class="back-button">← Back to Challenges</a>
-
-        <!-- Background Video -->
-        <video autoplay muted loop playsinline id="bgVideo">
-            <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-technology-network-connections-loop-animation-8902-large.mp4" type="video/mp4">
+        <!-- Background video -->
+        <video id="bgVideo" autoplay muted loop playsinline>
+            <source src="../assets/background.mp4" type="video/mp4">
         </video>
+        <div class="fallback-bg"></div>
+        <div class="overlay"></div>
 
+        <!-- Navigation -->
+        <nav class="nav-bar">
+            <a href="math-challenge.html" class="back-button">← Back to Difficulty Selection</a>
+            <div id="level">Level 1</div>
+            <div id="xp">XP: 0</div>
+        </nav>
+
+        <!-- Game UI -->
         <div class="content">
             <div class="game-ui">
-                <div class="score">Score: <span id="scoreDisplay">0</span></div>
                 <div class="timer-bar">
-                    <div id="timerProgress" class="timer-progress"></div>
+                    <div class="timer-progress"></div>
                 </div>
+                <div class="score">Score: 0</div>
                 <div class="question-container">
-                    <div id="question" class="question">Loading...</div>
-                    <div id="options" class="options-grid"></div>
+                    <!-- Questions will be dynamically inserted here -->
                 </div>
             </div>
         </div>
+
+        <!-- Particles -->
+        <div class="particles-container"></div>
     </div>
 
     <script>
@@ -131,7 +141,7 @@
                 return;
             }
             
-            const progress = document.getElementById('timerProgress');
+            const progress = document.querySelector('.timer-progress');
             const percentage = (timeLeft / getDuration()) * 100;
             progress.style.width = `${percentage}%`;
             timeLeft--;
@@ -162,13 +172,21 @@
                 case '/': answer = Math.round((num1 / num2) * 100) / 100; break;
             }
 
-            document.getElementById('question').textContent = `${num1} ${operator} ${num2} = ?`;
-            
+            const questionElement = document.createElement('div');
+            questionElement.className = 'question';
+            questionElement.textContent = `${num1} ${operator} ${num2} = ?`;
+
             const options = generateOptions(answer);
-            const optionsContainer = document.getElementById('options');
+            const optionsContainer = document.createElement('div');
+            optionsContainer.className = 'options-grid';
             optionsContainer.innerHTML = options.map(option => 
                 `<button class="option-btn" onclick="checkAnswer(${option}, ${answer})">${option}</button>`
             ).join('');
+
+            const questionContainer = document.querySelector('.question-container');
+            questionContainer.innerHTML = '';
+            questionContainer.appendChild(questionElement);
+            questionContainer.appendChild(optionsContainer);
 
             startTimer(getDuration());
         }
@@ -209,7 +227,7 @@
 
             if(selected === correct) {
                 score += Math.ceil(timeLeft * getDifficulty());
-                document.getElementById('scoreDisplay').textContent = score;
+                document.querySelector('.score').textContent = score;
             }
 
             setTimeout(() => {

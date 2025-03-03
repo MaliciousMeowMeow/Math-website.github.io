@@ -7,23 +7,23 @@
 
 body {
     font-family: Arial, sans-serif;
-    background: #000;
-    color: white;
     min-height: 100vh;
     overflow-x: hidden;
 }
 
+/* Game container */
 .game-container {
     min-height: 100vh;
     width: 100vw;
     position: relative;
-    overflow: hidden;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
-/* Background Video */
+/* Background video */
 #bgVideo {
     position: fixed;
     top: 50%;
@@ -37,18 +37,39 @@ body {
     z-index: 0;
 }
 
-/* Content Styles */
+/* Fallback background */
+.fallback-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3') center/cover;
+    z-index: -1;
+}
+
+/* Overlay */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.75));
+    z-index: 1;
+}
+
+/* Content */
 .content {
     position: relative;
     z-index: 2;
+    width: 100%;
     text-align: center;
     padding: 20px;
-    background: rgba(0, 0, 0, 0.7);
-    border-radius: 20px;
-    backdrop-filter: blur(10px);
 }
 
-h1 {
+/* Title */
+.title {
     font-size: 72px;
     font-weight: bold;
     margin-bottom: 50px;
@@ -59,16 +80,21 @@ h1 {
     text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
     animation: gradient 5s ease infinite;
     background-size: 300% 300%;
+    font-family: 'Arial Black', sans-serif;
+    letter-spacing: 2px;
 }
 
-/* Game Cards */
-.game-cards {
+/* Cards container */
+.cards-container {
     display: flex;
     justify-content: center;
     gap: 40px;
-    margin-top: 50px;
+    margin-top: 100px;
+    flex-wrap: wrap;
+    padding: 0 20px;
 }
 
+/* Game card */
 .game-card {
     background: linear-gradient(135deg, rgba(0, 255, 128, 0.1), rgba(0, 128, 255, 0.1));
     border: 2px solid rgba(0, 255, 128, 0.3);
@@ -79,11 +105,18 @@ h1 {
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.game-card:nth-child(2) {
+    background: linear-gradient(135deg, rgba(148, 0, 211, 0.1), rgba(75, 0, 130, 0.1));
+    border-color: rgba(148, 0, 211, 0.3);
 }
 
 .game-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 30px rgba(0, 255, 128, 0.3);
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
 .game-card h2 {
@@ -91,6 +124,11 @@ h1 {
     color: #00ff80;
     margin-bottom: 20px;
     text-shadow: 0 0 10px rgba(0, 255, 128, 0.5);
+}
+
+.game-card:nth-child(2) h2 {
+    color: #9400d3;
+    text-shadow: 0 0 10px rgba(148, 0, 211, 0.5);
 }
 
 .game-card p {
@@ -102,9 +140,86 @@ h1 {
 
 .card-icons {
     font-size: 24px;
-    color: #00ff80;
+    color: inherit;
     margin-top: 20px;
     animation: float 3s ease-in-out infinite;
+}
+
+/* Card glow effect */
+.card-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.game-card:hover .card-glow {
+    opacity: 1;
+}
+
+/* Magical sparkles */
+.magical-sparkles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 30% 20%, rgba(148, 0, 211, 0.1) 0%, transparent 25%),
+        radial-gradient(circle at 70% 60%, rgba(75, 0, 130, 0.1) 0%, transparent 25%);
+    animation: sparkle 3s infinite alternate;
+    pointer-events: none;
+}
+
+/* Particles container */
+.particles-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(0, 255, 128, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 128, 0, 0.1) 0%, transparent 50%);
+    animation: particlesMove 20s infinite linear;
+}
+
+/* Navigation */
+.nav-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 1000;
+}
+
+.back-button {
+    padding: 8px 16px;
+    background: rgba(148, 0, 211, 0.2);
+    border: 2px solid rgba(148, 0, 211, 0.3);
+    color: #9400d3;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.back-button:hover {
+    transform: translateY(-2px);
+    background: rgba(148, 0, 211, 0.3);
+    box-shadow: 0 0 15px rgba(148, 0, 211, 0.3);
 }
 
 /* Animations */
@@ -117,4 +232,169 @@ h1 {
 @keyframes float {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
+}
+
+@keyframes sparkle {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+}
+
+@keyframes particlesMove {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
+}
+
+/* Game UI */
+.game-ui {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.timer-bar {
+    width: 100%;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.timer-progress {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #00ff00, #ffff00, #ff0000);
+    transition: width 1s linear;
+}
+
+.question-container {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+}
+
+.question {
+    font-size: 32px;
+    margin-bottom: 30px;
+    color: white;
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.option-btn {
+    padding: 20px;
+    font-size: 24px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.option-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.score {
+    font-size: 24px;
+    color: #00ff00;
+    margin-bottom: 20px;
+}
+
+/* Realm cards */
+.realm-card {
+    background: linear-gradient(135deg, rgba(255, 0, 0, 0.1), rgba(255, 100, 100, 0.1));
+    border: 2px solid rgba(255, 0, 0, 0.3);
+    padding: 30px;
+    border-radius: 20px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.realm-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+.realm-icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Difficulty buttons */
+.difficulty-btn {
+    padding: 15px 40px;
+    font-size: 20px;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.difficulty-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    filter: brightness(1.2);
+}
+
+.difficulty-btn.easy {
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.9), rgba(76, 175, 80, 0.7));
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.difficulty-btn.medium {
+    background: linear-gradient(135deg, rgba(255, 165, 0, 0.9), rgba(255, 165, 0, 0.7));
+    box-shadow: 0 4px 15px rgba(255, 165, 0, 0.3);
+}
+
+.difficulty-btn.hard {
+    background: linear-gradient(135deg, rgba(244, 67, 54, 0.9), rgba(244, 67, 54, 0.7));
+    box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
+}
+
+.difficulty-btn.extreme {
+    background: linear-gradient(135deg, rgba(156, 39, 176, 0.9), rgba(156, 39, 176, 0.7));
+    box-shadow: 0 4px 15px rgba(156, 39, 176, 0.3);
+}
+
+.difficulty-btn.skull {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(40, 40, 40, 0.9));
+    border: 2px solid #ff0000;
+    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .title {
+        font-size: 48px;
+    }
+
+    .cards-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .game-card {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .options-grid {
+        grid-template-columns: 1fr;
+    }
 } 
