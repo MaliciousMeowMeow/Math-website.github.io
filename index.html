@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Adventure</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div class="game-container">
+        <!-- Background Video -->
+        <video autoplay muted loop playsinline id="bgVideo">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-technology-network-connections-loop-animation-8902-large.mp4" type="video/mp4">
+        </video>
+
+        <div class="content">
+            <h1>Math Adventure</h1>
+            
+            <div class="game-cards">
+                <!-- Math Challenge Card -->
+                <div class="game-card" onclick="window.location.href='pages/math-challenge.html'">
+                    <h2>Math Challenge</h2>
+                    <p>Test your mathematical skills with increasingly difficult challenges!</p>
+                    <div class="card-icons">🧮 📊 ⏱️</div>
+                </div>
+
+                <!-- Adventure Mode Card -->
+                <div class="game-card" onclick="window.location.href='pages/adventure.html'">
+                    <h2>Adventure Mode</h2>
+                    <p>Embark on an epic journey through the mystical Kingdom of Numerica!</p>
+                    <div class="card-icons">⚔️ 🏰 ✨</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/main.js"></script>
+</body>
+</html> 
