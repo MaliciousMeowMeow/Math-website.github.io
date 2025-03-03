@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game - Math Adventure</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <style>
+        .game-ui {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .timer-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .timer-progress {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #00ff00, #ffff00, #ff0000);
+            transition: width 1s linear;
+        }
+
+        .question-container {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .question {
+            font-size: 32px;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .option-btn {
+            padding: 20px;
+            font-size: 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .score {
+            font-size: 24px;
+            color: #00ff00;
+            margin-bottom: 20px;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: rgba(148, 0, 211, 0.2);
+            border: 2px solid rgba(148, 0, 211, 0.3);
+            color: #9400d3;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            z-index: 10;
+        }
+
+        .correct { background: rgba(0, 255, 0, 0.3) !important; }
+        .incorrect { background: rgba(255, 0, 0, 0.3) !important; }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <a href="./math-challenge.html" class="back-button">← Back to Challenges</a>
+
+        <!-- Background Video -->
+        <video autoplay muted loop playsinline id="bgVideo">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-technology-network-connections-loop-animation-8902-large.mp4" type="video/mp4">
+        </video>
+
+        <div class="content">
+            <div class="game-ui">
+                <div class="score">Score: <span id="scoreDisplay">0</span></div>
+                <div class="timer-bar">
+                    <div id="timerProgress" class="timer-progress"></div>
+                </div>
+                <div class="question-container">
+                    <div id="question" class="question">Loading...</div>
+                    <div id="options" class="options-grid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        let timeLeft = 0;
+        let timerInterval;
+        const difficulty = new URLSearchParams(window.location.search).get('difficulty') || 'easy';
+
+        function startTimer(duration) {
+            timeLeft = duration;
+            updateTimer();
+            clearInterval(timerInterval);
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function updateTimer() {
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                generateQuestion();
+                return;
+            }
+            
+            const progress = document.getElementById('timerProgress');
+            const percentage = (timeLeft / getDuration()) * 100;
+            progress.style.width = `${percentage}%`;
+            timeLeft--;
+        }
+
+        function getDuration() {
+            switch(difficulty) {
+                case 'easy': return 20;
+                case 'medium': return 15;
+                case 'hard': return 12;
+                case 'extreme': return 10;
+                case 'nightmare': return 8;
+                default: return 20;
+            }
+        }
+
+        function generateQuestion() {
+            const num1 = Math.floor(Math.random() * (getDifficulty() * 10)) + 1;
+            const num2 = Math.floor(Math.random() * (getDifficulty() * 10)) + 1;
+            const operators = getDifficulty() <= 2 ? ['+', '-'] : ['+', '-', '*', '/'];
+            const operator = operators[Math.floor(Math.random() * operators.length)];
+            
+            let answer;
+            switch(operator) {
+                case '+': answer = num1 + num2; break;
+                case '-': answer = num1 - num2; break;
+                case '*': answer = num1 * num2; break;
+                case '/': answer = Math.round((num1 / num2) * 100) / 100; break;
+            }
+
+            document.getElementById('question').textContent = `${num1} ${operator} ${num2} = ?`;
+            
+            const options = generateOptions(answer);
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = options.map(option => 
+                `<button class="option-btn" onclick="checkAnswer(${option}, ${answer})">${option}</button>`
+            ).join('');
+
+            startTimer(getDuration());
+        }
+
+        function getDifficulty() {
+            switch(difficulty) {
+                case 'easy': return 1;
+                case 'medium': return 2;
+                case 'hard': return 3;
+                case 'extreme': return 4;
+                case 'nightmare': return 5;
+                default: return 1;
+            }
+        }
+
+        function generateOptions(answer) {
+            const options = [answer];
+            while(options.length < 4) {
+                const variation = answer + (Math.random() < 0.5 ? 1 : -1) * 
+                    (Math.floor(Math.random() * Math.max(Math.abs(answer) * 0.5, 2)) + 1);
+                if(!options.includes(variation)) {
+                    options.push(variation);
+                }
+            }
+            return options.sort(() => Math.random() - 0.5);
+        }
+
+        function checkAnswer(selected, correct) {
+            const buttons = document.querySelectorAll('.option-btn');
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                if(parseFloat(btn.textContent) === correct) {
+                    btn.classList.add('correct');
+                } else if(parseFloat(btn.textContent) === selected && selected !== correct) {
+                    btn.classList.add('incorrect');
+                }
+            });
+
+            if(selected === correct) {
+                score += Math.ceil(timeLeft * getDifficulty());
+                document.getElementById('scoreDisplay').textContent = score;
+            }
+
+            setTimeout(() => {
+                generateQuestion();
+            }, 1000);
+        }
+
+        // Start the game
+        generateQuestion();
+    </script>
+    <script src="../scripts/main.js"></script>
+</body>
+</html> 

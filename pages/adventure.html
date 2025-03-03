@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adventure Mode - Math Adventure</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <style>
+        .realm-card {
+            background: linear-gradient(135deg, rgba(148, 0, 211, 0.1), rgba(75, 0, 130, 0.1));
+            border: 2px solid rgba(148, 0, 211, 0.3);
+            padding: 30px;
+            border-radius: 20px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .realm-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(148, 0, 211, 0.3);
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: rgba(148, 0, 211, 0.2);
+            border: 2px solid rgba(148, 0, 211, 0.3);
+            color: #9400d3;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            z-index: 10;
+        }
+
+        .realms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <a href="../index.html" class="back-button">← Back to Menu</a>
+
+        <!-- Background Video -->
+        <video autoplay muted loop playsinline id="bgVideo">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-technology-network-connections-loop-animation-8902-large.mp4" type="video/mp4">
+        </video>
+
+        <div class="content">
+            <h1>Choose Your Realm</h1>
+            
+            <div class="realms-grid">
+                <!-- Arithmetic Realm -->
+                <div class="realm-card" onclick="startRealm('arithmetic')">
+                    <div style="font-size: 48px; margin-bottom: 20px;">➕</div>
+                    <h2 style="color: #ff4444;">Arithmetic Realm</h2>
+                    <p>Master the fundamental forces of addition, subtraction, multiplication, and division.</p>
+                </div>
+
+                <!-- Algebra Realm -->
+                <div class="realm-card" onclick="startRealm('algebra')">
+                    <div style="font-size: 48px; margin-bottom: 20px;">✖️</div>
+                    <h2 style="color: #44ff44;">Algebra Realm</h2>
+                    <p>Unlock the mysteries of variables and equations in this challenging realm.</p>
+                </div>
+
+                <!-- Geometry Realm -->
+                <div class="realm-card" onclick="startRealm('geometry')">
+                    <div style="font-size: 48px; margin-bottom: 20px;">📐</div>
+                    <h2 style="color: #4444ff;">Geometry Realm</h2>
+                    <p>Explore the shapes and patterns that form the fabric of space itself.</p>
+                </div>
+
+                <!-- Indices Realm -->
+                <div class="realm-card" onclick="startRealm('indices')">
+                    <div style="font-size: 48px; margin-bottom: 20px;">🔢</div>
+                    <h2 style="color: #ff44ff;">Indices Realm</h2>
+                    <p>Master the power of exponents and unlock mathematical mysteries.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function startRealm(realm) {
+            // Add transition animation here if desired
+            window.location.href = `./level.html?realm=${realm}&level=1`;
+        }
+    </script>
+    <script src="../scripts/main.js"></script>
+</body>
+</html> 
